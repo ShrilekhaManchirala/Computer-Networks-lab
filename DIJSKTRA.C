@@ -1,43 +1,54 @@
 #include<stdio.h>
-void main()
+#include<conio.h>
+#include<limits.h>
+#define v 6
+int graph[v][v]={
+{0,4,0,0,0,0},
+{4,0,8,0,0,0},
+{0,8,0,7,0,4},
+{0,0,7,0,9,14},
+{0,0,0,9,0,10},
+{0,0,4,14,10,0}
+};
+void dijkstra(int source){
+int dist[v];
+int visited[v];
+int i,j;
+for(i=0;i<v;i++)
 {
-int path[5][5],i,j,min,a[5][5],p,st=1,ed=5,stp,edp,t[5],index;
-clrscr();
-printf("Enter the cost matrix\n");
-for(i=1;i<=5;i++)
-for(j=1;j<=5;j++)
-scanf("%d",&a[i][j]);
-printf("Enter the paths\n");
-scanf("%d",&p);
-printf("Enter possible paths\n");
-for(i=1;i<=p;i++)
-for(j=1;j<=5;j++)
-scanf("%d",&path[i][j]);
-for(i=1;i<=p;i++)
+dist[i]=INT_MAX;
+visited[i]=0;
+}dist[source]=0;
+for(i=0;i<v;i++)
 {
-t[i]=0;
-stp=st;
-for(j=1;j<=5;j++)
+int min_dist=INT_MAX;
+int min_index;
+for(j=0;j<v;j++)
 {
-edp=path[i][j+1];
-t[i]=t[i]+a[stp][edp];
-if(edp==ed)
-break;
-else
-stp=edp;
-}}
-min=t[st];index=st;
-for(i=1;i<=p;i++)
+if(!visited[j]&&dist[j]<min_dist)
 {
-if(min>t[i])
+min_dist=dist[j];
+min_index=j;
+}
+}
+visited[min_index]=1;
+for(j=0;j<v;j++)
 {
-min=t[i];
-index=i;
-}}
-printf("minimum cost %d",min);
-printf("\n minimum cost path");
-for(i=1;i<=5;i++)
+if(!visited[j]&&graph[min_index]&&dist[min_index]+graph[min_index][j]<dist[j])
 {
-printf("-->%d",path[index][i]);
-if(path[index][i]==ed)
-break;}}
+dist[j]=dist[min_index]+graph[min_index][j];
+}
+}
+}
+printf("shortest distances from vertex %d:\n",source);
+for(i=0;i<v;i++)
+{
+printf("%d->%d:%d\n",source,i,dist[j]);
+}
+}
+int main()
+{
+dijskstra(0);
+return 0;
+}
+
